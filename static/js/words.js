@@ -26,6 +26,13 @@
     });
   };
   populate = function(data) {
+    var api, input;
+    input = $('input');
+    if (input.data('wordnik')) {
+      api = 'wordnik';
+    } else if (input.data('domainr')) {
+      api = 'domainr';
+    }
     return data;
   };
   input_check = function() {
