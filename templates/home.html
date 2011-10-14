@@ -9,17 +9,21 @@
 {% block main %}
 <div class="container">
   <div class="row">
+
     <div class="span6">
       <form action="/search" method="GET" class="search">
-        <input type="text" name="search" value="" class="search-bar"
-               autocomplete="off"/>
+        <input type="text" name="search" class="search-bar"
+               autocomplete="off" data-content="Something here."
+               data-original-title="And a title."/>
         <input type="submit" class="submit" value="Submit" name="" />
       </form>
       <div class="liked"></div>
     </div>
+
     <div class="span10">
       <div class="results"></div>
     </div>
+
   </div>
 </div>
 {% endblock %}

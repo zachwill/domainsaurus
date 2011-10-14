@@ -5,7 +5,11 @@ class Search
     @form = $('form')
     @input = $('.search-bar')
     @form.submit(this.perform_search)
-    @input.focus()
+    @input.popover({
+      offset: 10,
+      placement: 'below',
+      trigger: 'manual',
+    }).popover('show').focus()
 
   domainr: (word) ->
     "http://domai.nr/api/json/search?q=#{ word }"
@@ -27,15 +31,12 @@ class Search
     $.ajax({
       url: url,
       dataType: 'jsonp',
-      success: this.populate,
+      success: this.results,
     })
 
-  populate: (data) =>
-    if @input.data('api') == 'wordnik'
-      # Populate results based on Wordnik data.
-    else
-      # Populate results based on Domainr data.
-    console.log(data)
+  results: (data) =>
+    api = @input.data('api')
+    new Results(data, api)
 
   input_check: =>
     value = @input.val()
@@ -47,6 +48,18 @@ class Search
     value = @input.val()
     if value == window._value
       this.perform_search()
+
+
+class Results
+  """A class to deal with results returned from API calls."""
+
+  constructor: (data, api) ->
+    @api = api
+    @data = data
+    this.populate(data)
+
+  populate: (data) ->
+    console.log(data)
 
 
 # CoffeeScript's version of the `main` function.

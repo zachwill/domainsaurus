@@ -1,16 +1,20 @@
 (function() {
-  var Search;
+  var Results, Search;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
       this.check_value = __bind(this.check_value, this);
       this.input_check = __bind(this.input_check, this);
-      this.populate = __bind(this.populate, this);
+      this.results = __bind(this.results, this);
       this.ajax_call = __bind(this.ajax_call, this);
       this.perform_search = __bind(this.perform_search, this);      this.form = $('form');
       this.input = $('.search-bar');
       this.form.submit(this.perform_search);
-      this.input.focus();
+      this.input.popover({
+        offset: 10,
+        placement: 'below',
+        trigger: 'manual'
+      }).popover('show').focus();
     }
     Search.prototype.domainr = function(word) {
       return "http://domai.nr/api/json/search?q=" + word;
@@ -38,14 +42,13 @@
       return $.ajax({
         url: url,
         dataType: 'jsonp',
-        success: this.populate
+        success: this.results
       });
     };
-    Search.prototype.populate = function(data) {
-      if (this.input.data('api') === 'wordnik') {} else {
-
-      }
-      return console.log(data);
+    Search.prototype.results = function(data) {
+      var api;
+      api = this.input.data('api');
+      return new Results(data, api);
     };
     Search.prototype.input_check = function() {
       var value;
@@ -63,6 +66,17 @@
       }
     };
     return Search;
+  })();
+  Results = (function() {
+    "A class to deal with results returned from API calls.";    function Results(data, api) {
+      this.api = api;
+      this.data = data;
+      this.populate(data);
+    }
+    Results.prototype.populate = function(data) {
+      return console.log(data);
+    };
+    return Results;
   })();
   (function() {
     return new Search;
