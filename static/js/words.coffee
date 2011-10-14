@@ -49,7 +49,6 @@ class Search
       this.perform_search()
 
 
-main = ->
+# CoffeeScript's version of the `main` function.
+do ->
   new Search
-
-main()

@@ -1,5 +1,5 @@
 (function() {
-  var Search, main;
+  var Search;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
@@ -64,8 +64,7 @@
     };
     return Search;
   })();
-  main = function() {
+  (function() {
     return new Search;
-  };
-  main();
+  })();
 }).call(this);
