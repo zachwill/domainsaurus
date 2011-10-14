@@ -25,9 +25,9 @@ class Search
 
   ajax_call: (url) =>
     $.ajax({
-      url: url
-      dataType: 'jsonp'
-      success: this.populate
+      url: url,
+      dataType: 'jsonp',
+      success: this.populate,
     })
 
   populate: (data) =>
