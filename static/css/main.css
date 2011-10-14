@@ -1,8 +1,8 @@
 
 ::-moz-selection{background:#be1a8d;color:#fff;text-shadow:-1px 1px 1px #7b115b;}
 ::selection{background:#be1a8d;color:#fff;text-shadow:-1px 1px 1px #7b115b;}
-#main{padding-top:80px;}
-.search{height:100px;margin-bottom:25px;position:relative;}.search .search-bar{padding-right:40px;width:290px;}
+#main{padding-top:100px;}
+.search{height:100px;margin-bottom:25px;position:relative;}.search .search-bar{font-size:14px;padding-right:40px;width:290px;}
 .search .submit{background:#eee;position:absolute;right:0;text-indent:-999em;top:0;width:36px;z-index:5;}
 .liked{background:blue;height:375px;margin-bottom:25px;}
 .results{background:red;height:500px;}
