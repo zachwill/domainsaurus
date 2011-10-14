@@ -9,7 +9,10 @@ class Search
       offset: 10,
       placement: 'below',
       trigger: 'manual',
-    }).popover('show').focus()
+    }).click( (event) ->
+      self = $(this)
+      self.select()
+    ).popover('show').focus()
 
   domainr: (word) ->
     "http://domai.nr/api/json/search?q=#{ word }"

@@ -14,6 +14,10 @@
         offset: 10,
         placement: 'below',
         trigger: 'manual'
+      }).click(function(event) {
+        var self;
+        self = $(this);
+        return self.select();
       }).popover('show').focus();
     }
     Search.prototype.domainr = function(word) {
