@@ -11,6 +11,15 @@
 ::-moz-selection{ background:@pink; color:#fff; text-shadow: -1px 1px 1px darken(@pink, 15%); }
 ::selection { background:@pink; color:#fff; text-shadow: -1px 1px 1px darken(@pink, 15%); }
 
+.topbar{
+    a{
+        color: #fff;
+    }
+    .fill, .menu-dropdown{
+        #gradient > .vertical(darken(@pink, 5%), darken(@pink, 10%));
+    }
+}
+
 
 #main{
     padding-top: 100px;
@@ -37,12 +46,11 @@
 }
 
 .liked{
-    background: blue;
     height: @height;
     margin-bottom: @margin;
 }
 
 .results{
-    background: red;
+    background: #eee;
     height: 100px + @height + @margin;
 }
