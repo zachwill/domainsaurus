@@ -26,7 +26,7 @@
     Search.prototype.wordnik = function(word, type) {
       var api_key;
       if (type == null) {
-        type = 'definitions';
+        type = 'related';
       }
       api_key = '114c5c8013a30746b185b088e83026eaebebd4a243890747e';
       return "http://api.wordnik.com/v4/word.json/" + word + "/" + type + "?api_key=" + api_key;
