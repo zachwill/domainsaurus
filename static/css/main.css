@@ -1,10 +1,11 @@
 
 ::-moz-selection{background:#be1a8d;color:#fff;text-shadow:-1px 1px 1px #7b115b;}
 ::selection{background:#be1a8d;color:#fff;text-shadow:-1px 1px 1px #7b115b;}
-.topbar a{color:#fff;}
+.topbar a{color:#fff;}.topbar a:hover{background:#be1a8d;}
+.topbar .brand:hover{text-decoration:none;}
 .topbar .fill,.topbar .menu-dropdown{background-color:#91146c;background-repeat:repeat-x;background-image:-khtml-gradient(linear, left top, left bottom, from(#a8177c), to(#91146c));background-image:-moz-linear-gradient(top, #a8177c, #91146c);background-image:-ms-linear-gradient(top, #a8177c, #91146c);background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #a8177c), color-stop(100%, #91146c));background-image:-webkit-linear-gradient(top, #a8177c, #91146c);background-image:-o-linear-gradient(top, #a8177c, #91146c);background-image:linear-gradient(top, #a8177c, #91146c);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a8177c', endColorstr='#91146c', GradientType=0);}
 #main{padding-top:100px;}
-.search{height:100px;margin-bottom:25px;position:relative;}.search .search-bar{font-size:14px;padding-right:40px;width:290px;}
+.search{height:100px;margin:130px 0 25px;position:relative;}.search .search-bar{font-size:14px;padding-right:40px;width:290px;}
 .search .submit{background:#eee;position:absolute;right:0;text-indent:-999em;top:0;width:36px;z-index:5;}
-.liked{height:375px;margin-bottom:25px;}
-.results{background:#eee;height:500px;}
+.liked{margin-bottom:25px;}
+.results{height:500px;}

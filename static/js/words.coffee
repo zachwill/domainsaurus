@@ -6,13 +6,24 @@ class Search
     @input = $('.search-bar')
     @form.submit(this.perform_search)
     @input.popover({
-      offset: 10,
-      placement: 'below',
+      offset: 15,
+      placement: 'above',
       trigger: 'manual',
     }).click( (event) ->
       self = $(this)
       self.select()
     ).popover('show').focus()
+    this.tab_click()
+    # And, let's make the site more usable...
+    new Usability
+
+  tab_click: =>
+    tabs = $('.tabs').children('li').find('a')
+    input = @input
+    tabs.click(->
+      api = $(this).text().toLowerCase()
+      input.focus().data(api: api)
+    )
 
   domainr: (word) ->
     "http://domai.nr/api/json/search?q=#{ word }"
@@ -63,6 +74,23 @@ class Results
 
   populate: (data) ->
     console.log(data)
+
+
+class Usability
+  """A class that makes the site more usable."""
+
+  constructor: ->
+    this.popover_fade()
+
+  popover_fade: ->
+    fade = ->
+      popover = $('.popover')
+      popover.mouseenter( ->
+        $(this).stop().animate(opacity: 1)
+      ).mouseleave( ->
+        $(this).stop().animate(opacity: 0.4)
+      ).animate(opacity: 0.4)
+    setTimeout(fade, 2000)
 
 
 # CoffeeScript's version of the `main` function.

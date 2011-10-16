@@ -14,6 +14,12 @@
 .topbar{
     a{
         color: #fff;
+        &:hover{
+            background: @pink;
+        }
+    }
+    .brand:hover{
+        text-decoration: none;
     }
     .fill, .menu-dropdown{
         #gradient > .vertical(darken(@pink, 5%), darken(@pink, 10%));
@@ -27,7 +33,7 @@
 
 .search{
     height: 100px;
-    margin-bottom: @margin;
+    margin: 130px 0 @margin;
     position: relative;
     .search-bar{
         font-size: 14px;
@@ -46,11 +52,9 @@
 }
 
 .liked{
-    height: @height;
     margin-bottom: @margin;
 }
 
 .results{
-    background: #eee;
     height: 100px + @height + @margin;
 }
