@@ -8,3 +8,4 @@
 .search{height:100px;margin:130px 0 25px;position:relative;}.search .search-bar{font-size:14px;padding-right:40px;width:290px;}
 .search .submit{background:#eee;position:absolute;right:0;text-indent:-999em;top:0;width:36px;z-index:5;}
 #domainr,#wordnik{height:500px;overflow-y:scroll;}#domainr .label,#wordnik .label{float:right;margin-right:30px;}
+footer{border:none;}
