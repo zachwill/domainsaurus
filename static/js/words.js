@@ -24,10 +24,15 @@
       tabs = $('.tabs').children('li').find('a');
       input = this.input;
       return tabs.click(function() {
-        var api;
+        var api, element, scroll_height;
         api = $(this).text().toLowerCase();
-        return input.focus().data({
+        input.focus().data({
           api: api
+        });
+        element = $('#' + api);
+        scroll_height = 1000000;
+        return element.animate({
+          scrollTop: scroll_height
         });
       });
     };
@@ -98,15 +103,22 @@
       }
     };
     Results.prototype.domainr_results = function(data) {
-      var div, domainr, height, html, result, results, span, _i, _len;
+      var div, domainr, height, html, label, result, results, span, symbol, _i, _len;
       domainr = $('#domainr');
       html = domainr.html();
       results = data.results;
       div = "<div class='row'>";
       for (_i = 0, _len = results.length; _i < _len; _i++) {
         result = results[_i];
-        span = "<span class='" + results.availability + "'></span>";
-        html += "<p class='span4'>" + result.domain + " " + span + "</p>";
+        if (result.availability === 'available') {
+          label = "label success";
+          symbol = '&#10003;';
+        } else {
+          label = "label";
+          symbol = 'X';
+        }
+        span = "<span class='" + label + "'>" + symbol + "</span>";
+        html += "<p class='span4'><a href='#'>" + result.domain + "</a>" + span + "</p>";
       }
       div += "</div><hr />";
       domainr.html(html + div);
@@ -144,10 +156,10 @@
           });
         }).mouseleave(function() {
           return $(this).stop().animate({
-            opacity: 0.3
+            opacity: .25
           });
         }).animate({
-          opacity: 0.3
+          opacity: .25
         });
       };
       return setTimeout(fade, 1500);

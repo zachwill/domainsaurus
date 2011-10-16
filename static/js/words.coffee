@@ -20,6 +20,10 @@ class Search
     tabs.click(->
       api = $(this).text().toLowerCase()
       input.focus().data(api: api)
+      element = $('#' + api)
+      # Set an insanely large scroll_height variable.
+      scroll_height = 1000000
+      element.animate(scrollTop: scroll_height)
     )
 
   domainr: (word) ->
@@ -81,8 +85,14 @@ class Results
     results = data.results
     div = "<div class='row'>"
     for result in results
-      span = "<span class='#{ results.availability }'></span>"
-      html += "<p class='span4'>#{ result.domain } #{ span }</p>"
+      if result.availability == 'available'
+        label = "label success"
+        symbol = '&#10003;'
+      else
+        label = "label"
+        symbol = 'X'
+      span = "<span class='#{ label }'>#{ symbol }</span>"
+      html += "<p class='span4'><a href='#'>#{ result.domain }</a>#{ span }</p>"
     div += "</div><hr />"
     domainr.html(html + div)
     height = this.calculate_scroll(domainr)
@@ -112,8 +122,8 @@ class Usability
       popover.mouseenter( ->
         $(this).stop().animate(opacity: 1)
       ).mouseleave( ->
-        $(this).stop().animate(opacity: 0.3)
-      ).animate(opacity: 0.3)
+        $(this).stop().animate(opacity: .25)
+      ).animate(opacity: .25)
     setTimeout(fade, 1500)
 
 
