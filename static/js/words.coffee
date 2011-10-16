@@ -9,10 +9,7 @@ class Search
       offset: 15,
       placement: 'above',
       trigger: 'manual',
-    }).click( (event) ->
-      self = $(this)
-      self.select()
-    ).popover('show').focus()
+    }).focus().popover('show')
     this.tab_click()
     # And, let's make the site more usable...
     new Usability
@@ -72,8 +69,35 @@ class Results
     @data = data
     this.populate(data)
 
-  populate: (data) ->
+  populate: (data) =>
+    if @api == 'wordnik'
+      this.wordnik_results(data)
+    else
+      this.domainr_results(data)
+
+  domainr_results: (data) =>
+    domainr = $('#domainr')
+    html = domainr.html()
+    results = data.results
+    div = "<div class='row'>"
+    for result in results
+      span = "<span class='#{ results.availability }'></span>"
+      html += "<p class='span4'>#{ result.domain } #{ span }</p>"
+    div += "</div><hr />"
+    domainr.html(html + div)
+    height = this.calculate_scroll(domainr)
+    domainr.animate(scrollTop: height)
+    console.log(results)
+
+  wordnik_results: (data) =>
     console.log(data)
+
+  calculate_scroll: (element) ->
+    height = 0
+    element.children().each( ->
+      height += $(this).height()
+    )
+    return height
 
 
 class Usability
@@ -88,9 +112,9 @@ class Usability
       popover.mouseenter( ->
         $(this).stop().animate(opacity: 1)
       ).mouseleave( ->
-        $(this).stop().animate(opacity: 0.4)
-      ).animate(opacity: 0.4)
-    setTimeout(fade, 2000)
+        $(this).stop().animate(opacity: 0.3)
+      ).animate(opacity: 0.3)
+    setTimeout(fade, 1500)
 
 
 # CoffeeScript's version of the `main` function.

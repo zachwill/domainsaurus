@@ -2,6 +2,8 @@
 
 @green: #8fc829;
 @pink: #be1a8d;
+@mac-green: #38d742;
+@twitter-blue: #0069D6;
 
 @height: 375px;
 @margin: 25px;
@@ -14,15 +16,13 @@
 .topbar{
     a{
         color: #fff;
-        &:hover{
-            background: @pink;
-        }
+        &:hover{ background: @twitter-blue; }
     }
     .brand:hover{
         text-decoration: none;
     }
     .fill, .menu-dropdown{
-        #gradient > .vertical(darken(@pink, 5%), darken(@pink, 10%));
+        #gradient > .vertical(darken(@mac-green, 15%), darken(@mac-green, 20%));
     }
 }
 
@@ -51,10 +51,7 @@
     }
 }
 
-.liked{
-    margin-bottom: @margin;
-}
-
-.results{
-    height: 100px + @height + @margin;
+#domainr, #wordnik{
+    height: 500px;
+    overflow-y: scroll;
 }

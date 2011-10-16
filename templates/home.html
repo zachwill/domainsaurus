@@ -13,16 +13,15 @@
     <div class="span6">
       <form action="/search" method="GET" class="search">
         <input type="text" name="search" class="search-bar"
-               autocomplete="off" data-api="domainr"
+               autocomplete="off" data-api="domainr" tabindex=1
                data-content="Whether you're looking for a domain or similar words, your search ends here."
-               data-original-title="Search easily"
+               data-original-title="Search easily."
         />
         <input type="submit" class="submit" value="Submit" name="" />
       </form>
-      <div class="liked"></div>
     </div>
 
-    <div class="span10">
+    <div class="span9 offset1">
       <div class="results">
 
         <ul class="tabs" data-tabs="tabs">
@@ -35,8 +34,8 @@
         </ul>
 
         <div class="tab-content">
-          <div id="rgb" class="active">
-          </div>
+          <div id="domainr" class="active"></div>
+          <div id="wordnik" class=""></div>
         </div>
 
       </div>

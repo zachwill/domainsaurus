@@ -15,11 +15,7 @@
         offset: 15,
         placement: 'above',
         trigger: 'manual'
-      }).click(function(event) {
-        var self;
-        self = $(this);
-        return self.select();
-      }).popover('show').focus();
+      }).focus().popover('show');
       this.tab_click();
       new Usability;
     }
@@ -88,12 +84,48 @@
   })();
   Results = (function() {
     "A class to deal with results returned from API calls.";    function Results(data, api) {
-      this.api = api;
+      this.wordnik_results = __bind(this.wordnik_results, this);
+      this.domainr_results = __bind(this.domainr_results, this);
+      this.populate = __bind(this.populate, this);      this.api = api;
       this.data = data;
       this.populate(data);
     }
     Results.prototype.populate = function(data) {
+      if (this.api === 'wordnik') {
+        return this.wordnik_results(data);
+      } else {
+        return this.domainr_results(data);
+      }
+    };
+    Results.prototype.domainr_results = function(data) {
+      var div, domainr, height, html, result, results, span, _i, _len;
+      domainr = $('#domainr');
+      html = domainr.html();
+      results = data.results;
+      div = "<div class='row'>";
+      for (_i = 0, _len = results.length; _i < _len; _i++) {
+        result = results[_i];
+        span = "<span class='" + results.availability + "'></span>";
+        html += "<p class='span4'>" + result.domain + " " + span + "</p>";
+      }
+      div += "</div><hr />";
+      domainr.html(html + div);
+      height = this.calculate_scroll(domainr);
+      domainr.animate({
+        scrollTop: height
+      });
+      return console.log(results);
+    };
+    Results.prototype.wordnik_results = function(data) {
       return console.log(data);
+    };
+    Results.prototype.calculate_scroll = function(element) {
+      var height;
+      height = 0;
+      element.children().each(function() {
+        return height += $(this).height();
+      });
+      return height;
     };
     return Results;
   })();
@@ -112,13 +144,13 @@
           });
         }).mouseleave(function() {
           return $(this).stop().animate({
-            opacity: 0.4
+            opacity: 0.3
           });
         }).animate({
-          opacity: 0.4
+          opacity: 0.3
         });
       };
-      return setTimeout(fade, 2000);
+      return setTimeout(fade, 1500);
     };
     return Usability;
   })();
