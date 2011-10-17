@@ -11,6 +11,7 @@ class Search
       trigger: 'manual',
     }).focus().popover('show')
     this.tab_click()
+    this.form_submit()
     # And, let's make the site more usable...
     new Usability
 
@@ -53,16 +54,10 @@ class Search
     api = @input.data('api')
     new Results(data, api)
 
-  input_check: =>
-    value = @input.val()
-    if value.length >= 2
-      window._value = value
-      setTimeout(this.check_value, 50)
-
-  check_value: =>
-    value = @input.val()
-    if value == window._value
-      this.perform_search()
+  form_submit: =>
+      form = $('form')
+      input = @input
+      form.submit(-> input.focus())
 
 
 class Results
