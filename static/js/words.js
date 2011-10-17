@@ -46,15 +46,16 @@
       return "http://api.wordnik.com/v4/word.json/" + word + "/" + type + "?api_key=" + api_key;
     };
     Search.prototype.perform_search = function(event) {
-      var url, value;
-      value = this.input.val();
-      if (this.input.data('api') === 'wordnik') {
+      var input, url, value;
+      input = this.input;
+      value = input.val();
+      if (input.data('api') === 'wordnik') {
         url = this.wordnik(value);
       } else {
         url = this.domainr(value);
       }
       this.ajax_call(url);
-      this.input.focus();
+      input.focus();
       return false;
     };
     Search.prototype.ajax_call = function(url) {
@@ -114,7 +115,25 @@
       return console.log(results);
     };
     Results.prototype.wordnik_results = function(data) {
-      return console.log(data);
+      var html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref;
+      wordnik = $('#wordnik');
+      html = wordnik.html();
+      for (_i = 0, _len = data.length; _i < _len; _i++) {
+        result = data[_i];
+        section = "<section>";
+        word = "<div class='row'><h3 class='span3'>" + result.relationshipType + "</h3>";
+        similar = "<div class='span6'>";
+        _ref = result.words;
+        for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+          synonym = _ref[_j];
+          similar += "<p>" + synonym + "</p>";
+        }
+        similar += "</div>";
+        section += word + similar + "</section>";
+        html += section;
+      }
+      console.log(data);
+      return wordnik.html(html + "<hr />");
     };
     Results.prototype.calculate_scroll = function(element) {
       var height;

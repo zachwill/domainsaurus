@@ -34,13 +34,14 @@ class Search
     "http://api.wordnik.com/v4/word.json/#{ word }/#{ type }?api_key=#{ api_key }"
 
   perform_search: (event) =>
-    value = @input.val()
-    if @input.data('api') == 'wordnik'
+    input = @input
+    value = input.val()
+    if input.data('api') == 'wordnik'
       url = this.wordnik(value)
     else
       url = this.domainr(value)
     this.ajax_call(url)
-    @input.focus()
+    input.focus()
     return false
 
   ajax_call: (url) =>
@@ -91,7 +92,19 @@ class Results
     console.log(results)
 
   wordnik_results: (data) =>
+    wordnik = $('#wordnik')
+    html = wordnik.html()
+    for result in data
+      section = "<section>"
+      word = "<div class='row'><h3 class='span3'>#{ result.relationshipType }</h3>"
+      similar = "<div class='span6'>"
+      for synonym in result.words
+        similar += "<p>#{ synonym }</p>"
+      similar += "</div>"
+      section += word + similar + "</section>"
+      html += section
     console.log(data)
+    wordnik.html(html + "<hr />")
 
   calculate_scroll: (element) ->
     height = element.children().length * 300
