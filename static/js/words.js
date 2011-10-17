@@ -51,6 +51,7 @@
       value = input.val();
       if (input.data('api') === 'wordnik') {
         url = this.wordnik(value);
+        this.definitions = this.wordnik(value, 'definitions');
       } else {
         url = this.domainr(value);
       }
@@ -66,18 +67,26 @@
       });
     };
     Search.prototype.results = function(data) {
-      var api;
+      var api, definitions;
       api = this.input.data('api');
-      return new Results(data, api);
+      definitions = this.definitions;
+      return new Results(data, api, definitions);
     };
     return Search;
   })();
   Results = (function() {
-    "A class to deal with results returned from API calls.";    function Results(data, api) {
+    "A class to deal with results returned from API calls.";    function Results(data, api, definitions) {
+      if (definitions == null) {
+        definitions = void 0;
+      }
+      this.create_html = __bind(this.create_html, this);
+      this.get_wordnik_definition = __bind(this.get_wordnik_definition, this);
       this.wordnik_results = __bind(this.wordnik_results, this);
       this.domainr_results = __bind(this.domainr_results, this);
-      this.populate = __bind(this.populate, this);      this.api = api;
+      this.populate = __bind(this.populate, this);
+      this.api = api;
       this.data = data;
+      this.definitions = definitions;
       this.populate(data);
     }
     Results.prototype.populate = function(data) {
@@ -113,17 +122,33 @@
       });
     };
     Results.prototype.wordnik_results = function(data) {
-      var height, html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref;
+      var deferred_wordnik;
+      this.value = $('.search-bar').val();
+      deferred_wordnik = this.get_wordnik_definition(this.value);
+      return deferred_wordnik.then(this.create_html);
+    };
+    Results.prototype.get_wordnik_definition = function(value) {
+      return $.ajax({
+        url: this.definitions,
+        dataType: 'jsonp'
+      });
+    };
+    Results.prototype.create_html = function(definition_data) {
+      var definition, first_definition, height, html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref, _ref2;
       wordnik = $('#wordnik');
       html = wordnik.html();
-      for (_i = 0, _len = data.length; _i < _len; _i++) {
-        result = data[_i];
+      first_definition = definition_data[0].text;
+      definition = "<h2>" + this.value + " <small>" + first_definition + "</small></h2>";
+      html += definition;
+      _ref = this.data;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        result = _ref[_i];
         section = "<section>";
         word = "<div class='row'><h5 class='span3'>" + result.relationshipType + "</h5>";
         similar = "<div class='span6'>";
-        _ref = result.words;
-        for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-          synonym = _ref[_j];
+        _ref2 = result.words;
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          synonym = _ref2[_j];
           similar += "<p>" + synonym + "</p>";
         }
         similar += "</div>";

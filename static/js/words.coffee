@@ -38,6 +38,7 @@ class Search
     value = input.val()
     if input.data('api') == 'wordnik'
       url = this.wordnik(value)
+      @definitions = this.wordnik(value, 'definitions')
     else
       url = this.domainr(value)
     this.ajax_call(url)
@@ -53,15 +54,17 @@ class Search
 
   results: (data) =>
     api = @input.data('api')
-    new Results(data, api)
+    definitions = @definitions
+    new Results(data, api, definitions)
 
 
 class Results
   """A class to deal with results returned from API calls."""
 
-  constructor: (data, api) ->
+  constructor: (data, api, definitions=undefined) ->
     @api = api
     @data = data
+    @definitions = definitions
     this.populate(data)
 
   populate: (data) =>
@@ -90,20 +93,34 @@ class Results
     domainr.animate(scrollTop: height)
 
   wordnik_results: (data) =>
-    wordnik = $('#wordnik')
-    html = wordnik.html()
-    for result in data
-      section = "<section>"
-      word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"
-      similar = "<div class='span6'>"
-      for synonym in result.words
-        similar += "<p>#{ synonym }</p>"
-      similar += "</div>"
-      section += word + similar + "</section>"
-      html += section
-    wordnik.html(html + "<hr />")
-    height = this.calculate_scroll('wordnik')
-    wordnik.animate(scrollTop: height)
+    @value = $('.search-bar').val()
+    deferred_wordnik = this.get_wordnik_definition(@value)
+    deferred_wordnik.then(this.create_html)
+
+  get_wordnik_definition: (value) =>
+    $.ajax({
+      url: @definitions,
+      dataType: 'jsonp',
+    })
+
+  create_html: (definition_data) =>
+      wordnik = $('#wordnik')
+      html = wordnik.html()
+      first_definition = definition_data[0].text
+      definition = "<h2>#{ @value } <small>#{ first_definition }</small></h2>"
+      html += definition
+      for result in @data
+        section = "<section>"
+        word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"
+        similar = "<div class='span6'>"
+        for synonym in result.words
+          similar += "<p>#{ synonym }</p>"
+        similar += "</div>"
+        section += word + similar + "</section>"
+        html += section
+      wordnik.html(html + "<hr />")
+      height = this.calculate_scroll('wordnik')
+      wordnik.animate(scrollTop: height)
 
   calculate_scroll: (element='domainr') ->
     if element == 'domainr'
