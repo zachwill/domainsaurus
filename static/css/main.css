@@ -10,4 +10,6 @@
 #domainr,#wordnik{height:500px;overflow-y:scroll;}#domainr .label,#wordnik .label{float:right;margin-right:30px;}
 #wordnik .row{margin-bottom:10px;}
 #wordnik h5{line-height:18px;text-align:right;}
+#wordnik h3{line-height:24px;text-align:right;}
+#wordnik p.span6{color:#ccc;line-height:24px;}
 footer{border:none;}

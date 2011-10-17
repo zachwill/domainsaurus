@@ -53,6 +53,7 @@ class Search
     })
 
   results: (data) =>
+    console.log data
     api = @input.data('api')
     definitions = @definitions
     new Results(data, api, definitions)
@@ -64,7 +65,7 @@ class Results
   constructor: (data, api, definitions=undefined) ->
     @api = api
     @data = data
-    @definitions = definitions
+    @definitions_url = definitions
     this.populate(data)
 
   populate: (data) =>
@@ -99,16 +100,24 @@ class Results
 
   get_wordnik_definition: (value) =>
     $.ajax({
-      url: @definitions,
+      url: @definitions_url,
       dataType: 'jsonp',
     })
 
   create_html: (definition_data) =>
+      try
+        first_definition = definition_data[0].text
+        first_definition = first_definition.split(':')[0]
+        definition = """
+          <div class='row'>
+          <h3 class='span3'>#{ @value }</h3><p class='span6'>#{ first_definition }</p>
+          </div>"""
+      catch error
+        definition = "<h3>#{ @value }</h3>"
       wordnik = $('#wordnik')
       html = wordnik.html()
-      first_definition = definition_data[0].text
-      definition = "<h2>#{ @value } <small>#{ first_definition }</small></h2>"
       html += definition
+      console.log @data
       for result in @data
         section = "<section>"
         word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"

@@ -68,6 +68,7 @@
     };
     Search.prototype.results = function(data) {
       var api, definitions;
+      console.log(data);
       api = this.input.data('api');
       definitions = this.definitions;
       return new Results(data, api, definitions);
@@ -86,7 +87,7 @@
       this.populate = __bind(this.populate, this);
       this.api = api;
       this.data = data;
-      this.definitions = definitions;
+      this.definitions_url = definitions;
       this.populate(data);
     }
     Results.prototype.populate = function(data) {
@@ -129,17 +130,23 @@
     };
     Results.prototype.get_wordnik_definition = function(value) {
       return $.ajax({
-        url: this.definitions,
+        url: this.definitions_url,
         dataType: 'jsonp'
       });
     };
     Results.prototype.create_html = function(definition_data) {
       var definition, first_definition, height, html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref, _ref2;
+      try {
+        first_definition = definition_data[0].text;
+        first_definition = first_definition.split(':')[0];
+        definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span6'>" + first_definition + "</p>\n</div>";
+      } catch (error) {
+        definition = "<h3>" + this.value + "</h3>";
+      }
       wordnik = $('#wordnik');
       html = wordnik.html();
-      first_definition = definition_data[0].text;
-      definition = "<h2>" + this.value + " <small>" + first_definition + "</small></h2>";
       html += definition;
+      console.log(this.data);
       _ref = this.data;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         result = _ref[_i];
