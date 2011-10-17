@@ -108,12 +108,12 @@ class Results
       try
         first_definition = definition_data[0].text
         first_definition = first_definition.split(':')[0]
-        definition = """
-          <div class='row'>
-          <h3 class='span3'>#{ @value }</h3><p class='span6'>#{ first_definition }</p>
-          </div>"""
       catch error
-        definition = "<h3>#{ @value }</h3>"
+        first_definition = "Apparently this word doesn't exist."
+      definition = """
+        <div class='row'>
+        <h3 class='span3'>#{ @value }</h3><p class='span6'>#{ first_definition }</p>
+        </div>"""
       wordnik = $('#wordnik')
       html = wordnik.html()
       html += definition

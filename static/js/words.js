@@ -139,10 +139,10 @@
       try {
         first_definition = definition_data[0].text;
         first_definition = first_definition.split(':')[0];
-        definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span6'>" + first_definition + "</p>\n</div>";
       } catch (error) {
-        definition = "<h3>" + this.value + "</h3>";
+        first_definition = "Apparently this word doesn't exist.";
       }
+      definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span6'>" + first_definition + "</p>\n</div>";
       wordnik = $('#wordnik');
       html = wordnik.html();
       html += definition;
