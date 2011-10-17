@@ -3,7 +3,6 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
-      this.form_submit = __bind(this.form_submit, this);
       this.results = __bind(this.results, this);
       this.ajax_call = __bind(this.ajax_call, this);
       this.perform_search = __bind(this.perform_search, this);
@@ -16,7 +15,6 @@
         trigger: 'manual'
       }).focus().popover('show');
       this.tab_click();
-      this.form_submit();
       new Usability;
     }
     Search.prototype.tab_click = function() {
@@ -56,6 +54,7 @@
         url = this.domainr(value);
       }
       this.ajax_call(url);
+      this.input.focus();
       return false;
     };
     Search.prototype.ajax_call = function(url) {
@@ -69,14 +68,6 @@
       var api;
       api = this.input.data('api');
       return new Results(data, api);
-    };
-    Search.prototype.form_submit = function() {
-      var form, input;
-      form = $('form');
-      input = this.input;
-      return form.submit(function() {
-        return input.focus();
-      });
     };
     return Search;
   })();

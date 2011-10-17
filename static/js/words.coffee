@@ -11,7 +11,6 @@ class Search
       trigger: 'manual',
     }).focus().popover('show')
     this.tab_click()
-    this.form_submit()
     # And, let's make the site more usable...
     new Usability
 
@@ -41,6 +40,7 @@ class Search
     else
       url = this.domainr(value)
     this.ajax_call(url)
+    @input.focus()
     return false
 
   ajax_call: (url) =>
@@ -53,11 +53,6 @@ class Search
   results: (data) =>
     api = @input.data('api')
     new Results(data, api)
-
-  form_submit: =>
-      form = $('form')
-      input = @input
-      form.submit(-> input.focus())
 
 
 class Results
