@@ -104,10 +104,7 @@ class Results
     console.log(data)
 
   calculate_scroll: (element) ->
-    height = 0
-    element.children().each( ->
-      height += $(this).height()
-    )
+    height = element.children().length * 300
     return height
 
 

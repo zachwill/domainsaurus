@@ -134,10 +134,7 @@
     };
     Results.prototype.calculate_scroll = function(element) {
       var height;
-      height = 0;
-      element.children().each(function() {
-        return height += $(this).height();
-      });
+      height = element.children().length * 300;
       return height;
     };
     return Results;
