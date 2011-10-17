@@ -85,11 +85,9 @@ class Results
       span = "<span class='#{ label }'>#{ symbol }</span>"
       div += "<p class='span4'><a href='#'>#{ result.domain }</a>#{ span }</p>"
     div += "</div><hr />"
-    console.log div
     domainr.html(html + div)
-    height = this.calculate_scroll(domainr)
+    height = this.calculate_scroll('domainr')
     domainr.animate(scrollTop: height)
-    console.log(results)
 
   wordnik_results: (data) =>
     wordnik = $('#wordnik')
@@ -103,11 +101,15 @@ class Results
       similar += "</div>"
       section += word + similar + "</section>"
       html += section
-    console.log(data)
     wordnik.html(html + "<hr />")
+    height = this.calculate_scroll('wordnik')
+    wordnik.animate(scrollTop: height)
 
-  calculate_scroll: (element) ->
-    height = element.children().length * 300
+  calculate_scroll: (element='domainr') ->
+    if element == 'domainr'
+      height = $('#domainr').children().length * 300
+    else if element == 'wordnik'
+      height = $('#wordnik').children().length * 700
     return height
 
 

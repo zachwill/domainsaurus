@@ -106,16 +106,14 @@
         div += "<p class='span4'><a href='#'>" + result.domain + "</a>" + span + "</p>";
       }
       div += "</div><hr />";
-      console.log(div);
       domainr.html(html + div);
-      height = this.calculate_scroll(domainr);
-      domainr.animate({
+      height = this.calculate_scroll('domainr');
+      return domainr.animate({
         scrollTop: height
       });
-      return console.log(results);
     };
     Results.prototype.wordnik_results = function(data) {
-      var html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref;
+      var height, html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref;
       wordnik = $('#wordnik');
       html = wordnik.html();
       for (_i = 0, _len = data.length; _i < _len; _i++) {
@@ -132,12 +130,22 @@
         section += word + similar + "</section>";
         html += section;
       }
-      console.log(data);
-      return wordnik.html(html + "<hr />");
+      wordnik.html(html + "<hr />");
+      height = this.calculate_scroll('wordnik');
+      return wordnik.animate({
+        scrollTop: height
+      });
     };
     Results.prototype.calculate_scroll = function(element) {
       var height;
-      height = element.children().length * 300;
+      if (element == null) {
+        element = 'domainr';
+      }
+      if (element === 'domainr') {
+        height = $('#domainr').children().length * 300;
+      } else if (element === 'wordnik') {
+        height = $('#wordnik').children().length * 700;
+      }
       return height;
     };
     return Results;
