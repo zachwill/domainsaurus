@@ -96,7 +96,7 @@ class Results
     html = wordnik.html()
     for result in data
       section = "<section>"
-      word = "<div class='row'><h3 class='span3'>#{ result.relationshipType }</h3>"
+      word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"
       similar = "<div class='span6'>"
       for synonym in result.words
         similar += "<p>#{ synonym }</p>"

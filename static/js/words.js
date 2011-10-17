@@ -121,7 +121,7 @@
       for (_i = 0, _len = data.length; _i < _len; _i++) {
         result = data[_i];
         section = "<section>";
-        word = "<div class='row'><h3 class='span3'>" + result.relationshipType + "</h3>";
+        word = "<div class='row'><h5 class='span3'>" + result.relationshipType + "</h5>";
         similar = "<div class='span6'>";
         _ref = result.words;
         for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
