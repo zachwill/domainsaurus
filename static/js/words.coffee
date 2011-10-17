@@ -92,8 +92,9 @@ class Results
         label = "label"
         symbol = 'X'
       span = "<span class='#{ label }'>#{ symbol }</span>"
-      html += "<p class='span4'><a href='#'>#{ result.domain }</a>#{ span }</p>"
+      div += "<p class='span4'><a href='#'>#{ result.domain }</a>#{ span }</p>"
     div += "</div><hr />"
+    console.log div
     domainr.html(html + div)
     height = this.calculate_scroll(domainr)
     domainr.animate(scrollTop: height)
