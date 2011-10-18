@@ -3,7 +3,6 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
-      this.results = __bind(this.results, this);
       this.ajax_call = __bind(this.ajax_call, this);
       this.perform_search = __bind(this.perform_search, this);
       this.tab_click = __bind(this.tab_click, this);      this.form = $('form');
@@ -43,6 +42,7 @@
         type = 'related';
       }
       api_key = '114c5c8013a30746b185b088e83026eaebebd4a243890747e';
+      word = word.toLowerCase();
       return "http://api.wordnik.com/v4/word.json/" + word + "/" + type + "?api_key=" + api_key;
     };
     Search.prototype.perform_search = function(event) {
@@ -60,18 +60,18 @@
       return false;
     };
     Search.prototype.ajax_call = function(url) {
+      var definitions, input;
+      input = this.input;
+      definitions = this.definitions;
+      console.log(url);
       return $.ajax({
         url: url,
-        dataType: 'jsonp',
-        success: this.results
+        dataType: 'jsonp'
+      }).then(function(data) {
+        var api;
+        api = input.data('api');
+        return new Results(data, api, definitions);
       });
-    };
-    Search.prototype.results = function(data) {
-      var api, definitions;
-      console.log(data);
-      api = this.input.data('api');
-      definitions = this.definitions;
-      return new Results(data, api, definitions);
     };
     return Search;
   })();
@@ -85,6 +85,7 @@
       this.wordnik_results = __bind(this.wordnik_results, this);
       this.domainr_results = __bind(this.domainr_results, this);
       this.populate = __bind(this.populate, this);
+      console.log(data);
       this.api = api;
       this.data = data;
       this.definitions_url = definitions;

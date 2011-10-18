@@ -31,6 +31,7 @@ class Search
 
   wordnik: (word, type='related') ->
     api_key = '114c5c8013a30746b185b088e83026eaebebd4a243890747e'
+    word = word.toLowerCase()
     "http://api.wordnik.com/v4/word.json/#{ word }/#{ type }?api_key=#{ api_key }"
 
   perform_search: (event) =>
@@ -46,23 +47,23 @@ class Search
     return false
 
   ajax_call: (url) =>
+    input = @input
+    definitions = @definitions
+    console.log url
     $.ajax({
       url: url,
       dataType: 'jsonp',
-      success: this.results,
-    })
-
-  results: (data) =>
-    console.log data
-    api = @input.data('api')
-    definitions = @definitions
-    new Results(data, api, definitions)
+    }).then( (data) ->
+      api = input.data('api')
+      new Results(data, api, definitions)
+    )
 
 
 class Results
   """A class to deal with results returned from API calls."""
 
   constructor: (data, api, definitions=undefined) ->
+    console.log data
     @api = api
     @data = data
     @definitions_url = definitions
