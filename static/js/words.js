@@ -102,6 +102,7 @@
       domainr = $('#domainr');
       html = domainr.html();
       results = data.results;
+      domainr.css('background', '#fff');
       div = "<div class='row'>";
       for (_i = 0, _len = results.length; _i < _len; _i++) {
         result = results[_i];
@@ -145,6 +146,7 @@
       definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span6'>" + first_definition + "</p>\n</div>";
       wordnik = $('#wordnik');
       html = wordnik.html();
+      wordnik.css('background', '#fff');
       html += definition;
       console.log(this.data);
       _ref = this.data;

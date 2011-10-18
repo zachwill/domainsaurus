@@ -78,6 +78,7 @@ class Results
     domainr = $('#domainr')
     html = domainr.html()
     results = data.results
+    domainr.css('background', '#fff')
     div = "<div class='row'>"
     for result in results
       if result.availability == 'available'
@@ -116,6 +117,7 @@ class Results
         </div>"""
       wordnik = $('#wordnik')
       html = wordnik.html()
+      wordnik.css('background', '#fff')
       html += definition
       console.log @data
       for result in @data
