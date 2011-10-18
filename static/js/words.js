@@ -89,6 +89,7 @@
       this.definitions_url = definitions;
       this.populate(data);
       this.click_available_domain();
+      this.create_modal();
     }
     Results.prototype.populate = function(data) {
       if (this.api === 'wordnik') {
@@ -114,7 +115,7 @@
           symbol = 'X';
         }
         span = "<span class='" + label + "'>" + symbol + "</span>";
-        div += "<p class='span4'><a href='#'>" + result.domain + "</a>" + span + "</p>";
+        div += "<p class='span4'><a href='#' class='domain'>" + result.domain + "</a>" + span + "</p>";
       }
       div += "</div><hr />";
       domainr.html(html + div);
@@ -183,26 +184,30 @@
     };
     Results.prototype.click_available_domain = function() {
       var links;
-      links = $('.tab-content').find('a');
-      return links.live('click', function(event) {
+      links = $('.domain');
+      return links.bind('click', function(event) {
         var modal, text;
         text = $(this).text();
         modal = $('#register-domain');
         console.log(text);
-        console.log(modal);
-        modal.modal({
-          backdrop: true
-        });
-        return false;
+        return modal.modal('show');
+      });
+    };
+    Results.prototype.create_modal = function() {
+      var modal;
+      modal = $('#register-domain');
+      return modal.modal({
+        backdrop: true
+      }).bind('hide', function() {
+        var input;
+        input = $('.search-bar');
+        return input.focus();
       });
     };
     return Results;
   })();
   Usability = (function() {
     "A class that makes the site more usable.";    function Usability() {
-      $('#register-domain').modal({
-        backdrop: true
-      });
       this.popover_fade();
       this.tab_switch();
       this.about_click();

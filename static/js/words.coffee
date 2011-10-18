@@ -67,6 +67,7 @@ class Results
     @definitions_url = definitions
     this.populate(data)
     this.click_available_domain()
+    this.create_modal()
 
   populate: (data) =>
     if @api == 'wordnik'
@@ -88,7 +89,7 @@ class Results
         label = "label"
         symbol = 'X'
       span = "<span class='#{ label }'>#{ symbol }</span>"
-      div += "<p class='span4'><a href='#'>#{ result.domain }</a>#{ span }</p>"
+      div += "<p class='span4'><a href='#' class='domain'>#{ result.domain }</a>#{ span }</p>"
     div += "</div><hr />"
     domainr.html(html + div)
     height = this.calculate_scroll('domainr')
@@ -140,14 +141,19 @@ class Results
     return height
 
   click_available_domain: ->
-    links = $('.tab-content').find('a')
-    links.live('click', (event) ->
+    links = $('.domain')
+    links.bind('click', (event) ->
       text = $(this).text()
       modal = $('#register-domain')
       console.log(text)
-      console.log modal
-      modal.modal(backdrop: true)
-      return false
+      modal.modal('show')
+    )
+
+  create_modal: ->
+    modal = $('#register-domain')
+    modal.modal(backdrop: true).bind('hide', ->
+      input = $('.search-bar')
+      input.focus()
     )
 
 
@@ -156,7 +162,6 @@ class Usability
 
   constructor: ->
     # Create the register domain modal first.
-    $('#register-domain').modal(backdrop: true)
     this.popover_fade()
     this.tab_switch()
     this.about_click()
