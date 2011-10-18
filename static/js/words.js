@@ -63,7 +63,6 @@
       var definitions, input;
       input = this.input;
       definitions = this.definitions;
-      console.log(url);
       return $.ajax({
         url: url,
         dataType: 'jsonp'
@@ -85,7 +84,6 @@
       this.wordnik_results = __bind(this.wordnik_results, this);
       this.domainr_results = __bind(this.domainr_results, this);
       this.populate = __bind(this.populate, this);
-      console.log(data);
       this.api = api;
       this.data = data;
       this.definitions_url = definitions;
@@ -150,7 +148,6 @@
       html = wordnik.html();
       wordnik.css('background', '#fff');
       html += definition;
-      console.log(this.data);
       _ref = this.data;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         result = _ref[_i];
@@ -188,16 +185,24 @@
       var links;
       links = $('.tab-content').find('a');
       return links.live('click', function(event) {
-        var text;
+        var modal, text;
         text = $(this).text();
-        event.preventDefault();
-        return console.log(text);
+        modal = $('#register-domain');
+        console.log(text);
+        console.log(modal);
+        modal.modal({
+          backdrop: true
+        });
+        return false;
       });
     };
     return Results;
   })();
   Usability = (function() {
     "A class that makes the site more usable.";    function Usability() {
+      $('#register-domain').modal({
+        backdrop: true
+      });
       this.popover_fade();
       this.tab_switch();
       this.about_click();
@@ -222,7 +227,7 @@
       body = $('body');
       switch_functionality = function(event) {
         var input, non_active;
-        non_active = $('.active').siblings().find('a');
+        non_active = $('.active').siblings().children('a');
         input = $('.search-bar');
         if (event.keyCode === 9) {
           event.preventDefault();

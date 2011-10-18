@@ -49,7 +49,6 @@ class Search
   ajax_call: (url) =>
     input = @input
     definitions = @definitions
-    console.log url
     $.ajax({
       url: url,
       dataType: 'jsonp',
@@ -63,7 +62,6 @@ class Results
   """A class to deal with results returned from API calls."""
 
   constructor: (data, api, definitions=undefined) ->
-    console.log data
     @api = api
     @data = data
     @definitions_url = definitions
@@ -121,7 +119,6 @@ class Results
       html = wordnik.html()
       wordnik.css('background', '#fff')
       html += definition
-      console.log @data
       for result in @data
         section = "<section>"
         word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"
@@ -146,8 +143,11 @@ class Results
     links = $('.tab-content').find('a')
     links.live('click', (event) ->
       text = $(this).text()
-      event.preventDefault()
+      modal = $('#register-domain')
       console.log(text)
+      console.log modal
+      modal.modal(backdrop: true)
+      return false
     )
 
 
@@ -155,6 +155,8 @@ class Usability
   """A class that makes the site more usable."""
 
   constructor: ->
+    # Create the register domain modal first.
+    $('#register-domain').modal(backdrop: true)
     this.popover_fade()
     this.tab_switch()
     this.about_click()
@@ -170,13 +172,13 @@ class Usability
   tab_switch: ->
     body = $('body')
     switch_functionality = (event) ->
-      non_active = $('.active').siblings().find('a')
+      non_active = $('.active').siblings().children('a')
       input = $('.search-bar')
       if event.keyCode == 9
         event.preventDefault()
         non_active.click()
         input.focus()
-    body.keydown( switch_functionality )
+    body.keydown(switch_functionality)
 
   about_click: ->
     about = $('.secondary-nav').children(':first').find('a')
