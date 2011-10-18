@@ -13,6 +13,12 @@
 ::-moz-selection{ background:@twitter-green; color:#fff; text-shadow: -1px 1px 1px darken(@twitter-green, 15%); }
 ::selection { background:@twitter-green; color:#fff; text-shadow: -1px 1px 1px darken(@twitter-green, 15%); }
 
+/* Image pre-loading... */
+body:after{
+    content: url(/static/img/search.png);
+    display: none;
+}
+
 .topbar{
     a{
         color: #fff;
@@ -41,7 +47,7 @@
         width: 330px - @button-width;
     }
     .submit{
-        background: #eee;
+        background: url(/static/img/search.png) #eee no-repeat center center;
         position: absolute;
         right: 0;
         text-indent: -999em;
