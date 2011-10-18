@@ -143,7 +143,7 @@
       } catch (error) {
         first_definition = "Apparently this word doesn't have a definition.";
       }
-      definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span6'>" + first_definition + "</p>\n</div>";
+      definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span5'>" + first_definition + "</p>\n</div>";
       wordnik = $('#wordnik');
       html = wordnik.html();
       wordnik.css('background', '#fff');
@@ -154,7 +154,7 @@
         result = _ref[_i];
         section = "<section>";
         word = "<div class='row'><h5 class='span3'>" + result.relationshipType + "</h5>";
-        similar = "<div class='span6'>";
+        similar = "<div class='span5'>";
         _ref2 = result.words;
         for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
           synonym = _ref2[_j];

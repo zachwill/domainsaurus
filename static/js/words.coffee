@@ -113,7 +113,7 @@ class Results
         first_definition = "Apparently this word doesn't have a definition."
       definition = """
         <div class='row'>
-        <h3 class='span3'>#{ @value }</h3><p class='span6'>#{ first_definition }</p>
+        <h3 class='span3'>#{ @value }</h3><p class='span5'>#{ first_definition }</p>
         </div>"""
       wordnik = $('#wordnik')
       html = wordnik.html()
@@ -123,7 +123,7 @@ class Results
       for result in @data
         section = "<section>"
         word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"
-        similar = "<div class='span6'>"
+        similar = "<div class='span5'>"
         for synonym in result.words
           similar += "<p>#{ synonym }</p>"
         similar += "</div>"
