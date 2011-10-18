@@ -109,7 +109,7 @@ class Results
         first_definition = definition_data[0].text
         first_definition = first_definition.split(':')[0]
       catch error
-        first_definition = "Apparently this word doesn't exist."
+        first_definition = "Apparently this word doesn't have a definition."
       definition = """
         <div class='row'>
         <h3 class='span3'>#{ @value }</h3><p class='span6'>#{ first_definition }</p>
@@ -144,16 +144,35 @@ class Usability
 
   constructor: ->
     this.popover_fade()
+    this.tab_switch()
+    this.about_click()
 
   popover_fade: ->
-    fade = ->
-      popover = $('.popover')
-      popover.mouseenter( ->
-        $(this).stop().animate(opacity: 1)
-      ).mouseleave( ->
-        $(this).stop().animate(opacity: .25)
-      ).animate(opacity: .25)
-    setTimeout(fade, 1500)
+    popover = $('.popover')
+    popover.mouseenter( ->
+      $(this).stop().animate(opacity: 1)
+    ).mouseleave( ->
+      $(this).stop().animate(opacity: .25)
+    ).animate(opacity: .25)
+
+  tab_switch: ->
+    body = $('body')
+    switch_functionality = (event) ->
+      non_active = $('.active').siblings().find('a')
+      input = $('.search-bar')
+      if event.keyCode == 9
+        event.preventDefault()
+        non_active.click()
+        input.focus()
+    body.keydown( switch_functionality )
+
+  about_click: ->
+    about = $('.secondary-nav').children(':first').find('a')
+    about.click( (event) ->
+      html = $('html, body')
+      event.preventDefault()
+      html.animate(scrollTop: 1500)
+    )
 
 
 # CoffeeScript's version of the `main` function.

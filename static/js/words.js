@@ -140,7 +140,7 @@
         first_definition = definition_data[0].text;
         first_definition = first_definition.split(':')[0];
       } catch (error) {
-        first_definition = "Apparently this word doesn't exist.";
+        first_definition = "Apparently this word doesn't have a definition.";
       }
       definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span6'>" + first_definition + "</p>\n</div>";
       wordnik = $('#wordnik');
@@ -185,25 +185,50 @@
   Usability = (function() {
     "A class that makes the site more usable.";    function Usability() {
       this.popover_fade();
+      this.tab_switch();
+      this.about_click();
     }
     Usability.prototype.popover_fade = function() {
-      var fade;
-      fade = function() {
-        var popover;
-        popover = $('.popover');
-        return popover.mouseenter(function() {
-          return $(this).stop().animate({
-            opacity: 1
-          });
-        }).mouseleave(function() {
-          return $(this).stop().animate({
-            opacity: .25
-          });
-        }).animate({
+      var popover;
+      popover = $('.popover');
+      return popover.mouseenter(function() {
+        return $(this).stop().animate({
+          opacity: 1
+        });
+      }).mouseleave(function() {
+        return $(this).stop().animate({
           opacity: .25
         });
+      }).animate({
+        opacity: .25
+      });
+    };
+    Usability.prototype.tab_switch = function() {
+      var body, switch_functionality;
+      body = $('body');
+      switch_functionality = function(event) {
+        var input, non_active;
+        non_active = $('.active').siblings().find('a');
+        input = $('.search-bar');
+        if (event.keyCode === 9) {
+          event.preventDefault();
+          non_active.click();
+          return input.focus();
+        }
       };
-      return setTimeout(fade, 1500);
+      return body.keydown(switch_functionality);
+    };
+    Usability.prototype.about_click = function() {
+      var about;
+      about = $('.secondary-nav').children(':first').find('a');
+      return about.click(function(event) {
+        var html;
+        html = $('html, body');
+        event.preventDefault();
+        return html.animate({
+          scrollTop: 1500
+        });
+      });
     };
     return Usability;
   })();
