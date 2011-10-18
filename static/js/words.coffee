@@ -11,8 +11,6 @@ class Search
       trigger: 'manual',
     }).focus().popover('show')
     this.tab_click()
-    # And, let's make the site more usable...
-    new Usability
 
   tab_click: =>
     tabs = $('.tabs').children('li').find('a')
@@ -67,7 +65,6 @@ class Results
     @definitions_url = definitions
     this.populate(data)
     this.click_available_domain()
-    this.create_modal()
 
   populate: (data) =>
     if @api == 'wordnik'
@@ -140,22 +137,6 @@ class Results
       height = $('#wordnik').children().length * 700
     return height
 
-  click_available_domain: ->
-    links = $('.domain')
-    links.bind('click', (event) ->
-      text = $(this).text()
-      modal = $('#register-domain')
-      console.log(text)
-      modal.modal('show')
-    )
-
-  create_modal: ->
-    modal = $('#register-domain')
-    modal.modal(backdrop: true).bind('hide', ->
-      input = $('.search-bar')
-      input.focus()
-    )
-
 
 class Usability
   """A class that makes the site more usable."""
@@ -194,6 +175,33 @@ class Usability
     )
 
 
+class Domains
+  """Handle interaction with clicking on domain names and modals."""
+
+  constructor: ->
+    this.create_modal()
+    this.click_available()
+
+  create_modal: ->
+    modal = $('#register-domain')
+    modal.modal(backdrop: true).bind('hide', ->
+      input = $('.search-bar')
+      input.focus()
+    )
+
+  click_available: ->
+    links = $('.domain')
+    links.live('click', (event) ->
+      text = $(this).text()
+      modal = $('#register-domain')
+      console.log(text)
+      modal.modal('show')
+      return false
+    )
+
+
 # CoffeeScript's version of the `main` function.
 do ->
   new Search
+  new Usability
+  new Domains

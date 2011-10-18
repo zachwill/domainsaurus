@@ -1,5 +1,5 @@
 (function() {
-  var Results, Search, Usability;
+  var Domains, Results, Search, Usability;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
@@ -14,7 +14,6 @@
         trigger: 'manual'
       }).focus().popover('show');
       this.tab_click();
-      new Usability;
     }
     Search.prototype.tab_click = function() {
       var input, tabs;
@@ -89,7 +88,6 @@
       this.definitions_url = definitions;
       this.populate(data);
       this.click_available_domain();
-      this.create_modal();
     }
     Results.prototype.populate = function(data) {
       if (this.api === 'wordnik') {
@@ -182,28 +180,6 @@
       }
       return height;
     };
-    Results.prototype.click_available_domain = function() {
-      var links;
-      links = $('.domain');
-      return links.bind('click', function(event) {
-        var modal, text;
-        text = $(this).text();
-        modal = $('#register-domain');
-        console.log(text);
-        return modal.modal('show');
-      });
-    };
-    Results.prototype.create_modal = function() {
-      var modal;
-      modal = $('#register-domain');
-      return modal.modal({
-        backdrop: true
-      }).bind('hide', function() {
-        var input;
-        input = $('.search-bar');
-        return input.focus();
-      });
-    };
     return Results;
   })();
   Usability = (function() {
@@ -256,7 +232,39 @@
     };
     return Usability;
   })();
+  Domains = (function() {
+    "Handle interaction with clicking on domain names and modals.";    function Domains() {
+      this.create_modal();
+      this.click_available();
+    }
+    Domains.prototype.create_modal = function() {
+      var modal;
+      modal = $('#register-domain');
+      return modal.modal({
+        backdrop: true
+      }).bind('hide', function() {
+        var input;
+        input = $('.search-bar');
+        return input.focus();
+      });
+    };
+    Domains.prototype.click_available = function() {
+      var links;
+      links = $('.domain');
+      return links.live('click', function(event) {
+        var modal, text;
+        text = $(this).text();
+        modal = $('#register-domain');
+        console.log(text);
+        modal.modal('show');
+        return false;
+      });
+    };
+    return Domains;
+  })();
   (function() {
-    return new Search;
+    new Search;
+    new Usability;
+    return new Domains;
   })();
 }).call(this);
