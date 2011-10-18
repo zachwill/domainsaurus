@@ -16,3 +16,4 @@ body:after{content:url(/static/img/search.png);display:none;}
 #wordnik p.span5{color:#ccc;line-height:24px;}
 footer{border:none;}
 .video{background:#222;height:315px;}
+.bottom{margin-top:50px;margin-bottom:50px;}
