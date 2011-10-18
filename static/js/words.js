@@ -89,6 +89,7 @@
       this.data = data;
       this.definitions_url = definitions;
       this.populate(data);
+      this.click_available_domain();
     }
     Results.prototype.populate = function(data) {
       if (this.api === 'wordnik') {
@@ -181,6 +182,16 @@
         height = $('#wordnik').children().length * 700;
       }
       return height;
+    };
+    Results.prototype.click_available_domain = function() {
+      var links;
+      links = $('.tab-content').find('a');
+      return links.live('click', function(event) {
+        var text;
+        text = $(this).text();
+        event.preventDefault();
+        return console.log(text);
+      });
     };
     return Results;
   })();

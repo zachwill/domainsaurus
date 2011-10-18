@@ -17,7 +17,7 @@ class Search
   tab_click: =>
     tabs = $('.tabs').children('li').find('a')
     input = @input
-    tabs.click(->
+    tabs.click( ->
       api = $(this).text().toLowerCase()
       input.focus().data(api: api)
       element = $('#' + api)
@@ -67,6 +67,7 @@ class Results
     @data = data
     @definitions_url = definitions
     this.populate(data)
+    this.click_available_domain()
 
   populate: (data) =>
     if @api == 'wordnik'
@@ -139,6 +140,14 @@ class Results
     else if element == 'wordnik'
       height = $('#wordnik').children().length * 700
     return height
+
+  click_available_domain: ->
+    links = $('.tab-content').find('a')
+    links.live('click', (event) ->
+      text = $(this).text()
+      event.preventDefault()
+      console.log(text)
+    )
 
 
 class Usability
