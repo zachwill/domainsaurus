@@ -126,7 +126,9 @@
         templates.push(template);
       }
       templates = templates.join('');
-      div = "<div class='row'>" + templates + "</div><hr />";
+      div = render('domainr_div', {
+        templates: templates
+      });
       domainr.html(html + div);
       height = this.calculate_scroll('domainr');
       return domainr.animate({

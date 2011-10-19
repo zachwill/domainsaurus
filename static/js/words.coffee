@@ -99,7 +99,7 @@ class Results
       })
       templates.push(template)
     templates = templates.join('')
-    div = "<div class='row'>#{ templates }</div><hr />"
+    div = render('domainr_div', templates: templates)
     domainr.html(html + div)
     height = this.calculate_scroll('domainr')
     domainr.animate(scrollTop: height)
@@ -154,7 +154,6 @@ class Usability
   """A class that makes the site more usable."""
 
   constructor: ->
-    # Create the register domain modal first.
     this.popover_fade()
     this.tab_switch()
     this.about_click()
