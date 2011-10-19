@@ -170,8 +170,10 @@ class Usability
     about = $('.secondary-nav').children(':first').find('a')
     about.click( (event) ->
       html = $('html, body')
+      input = $('.search-bar')
       event.preventDefault()
       html.animate(scrollTop: 1500)
+      input.focus()
     )
 
 

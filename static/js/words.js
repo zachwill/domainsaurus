@@ -222,12 +222,14 @@
       var about;
       about = $('.secondary-nav').children(':first').find('a');
       return about.click(function(event) {
-        var html;
+        var html, input;
         html = $('html, body');
+        input = $('.search-bar');
         event.preventDefault();
-        return html.animate({
+        html.animate({
           scrollTop: 1500
         });
+        return input.focus();
       });
     };
     return Usability;
