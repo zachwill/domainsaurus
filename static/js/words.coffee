@@ -1,6 +1,6 @@
 render = (id, data) ->
   """A simple function to render ICanHaz.js templates."""
-  return ich[id](data, true)
+  return window.ich[id](data, true)
 
 
 class Search
@@ -9,13 +9,13 @@ class Search
   constructor: ->
     @form = $('form')
     @input = $('.search-bar')
-    @form.submit(this.perform_search)
+    @form.submit(@perform_search)
     @input.popover({
       offset: 15,
       placement: 'above',
       trigger: 'manual',
     }).focus().popover('show')
-    this.tab_click()
+    @tab_click()
 
   tab_click: =>
     tabs = $('.tabs').children('li').find('a')
@@ -43,11 +43,11 @@ class Search
     if not value
         return false
     if input.data('api') == 'wordnik'
-      url = this.wordnik(value)
-      @definitions = this.wordnik(value, 'definitions')
+      url = @wordnik(value)
+      @definitions = @wordnik(value, 'definitions')
     else
-      url = this.domainr(value)
-    this.ajax_call(url)
+      url = @domainr(value)
+    @ajax_call(url)
     input.focus()
     return false
 
@@ -70,13 +70,13 @@ class Results
     @api = api
     @data = data
     @definitions_url = definitions
-    this.populate(data)
+    @populate(data)
 
   populate: (data) =>
     if @api == 'wordnik'
-      this.wordnik_results(data)
+      @wordnik_results(data)
     else
-      this.domainr_results(data)
+      @domainr_results(data)
 
   domainr_results: (data) =>
     domainr = $('#domainr')
@@ -101,13 +101,13 @@ class Results
     templates = templates.join('')
     div = render('domainr_div', templates: templates)
     domainr.html(html + div)
-    height = this.calculate_scroll('domainr')
+    height = @calculate_scroll('domainr')
     domainr.animate(scrollTop: height)
 
   wordnik_results: (data) =>
     @value = $('.search-bar').val()
-    deferred_wordnik = this.get_wordnik_definition(@value)
-    deferred_wordnik.then(this.create_wordnik_html)
+    deferred_wordnik = @get_wordnik_definition(@value)
+    deferred_wordnik.then(@create_wordnik_html)
 
   get_wordnik_definition: (value) =>
     $.ajax({
@@ -139,7 +139,7 @@ class Results
         sections.push(section)
       sections = sections.join('')
       wordnik.html(html + "#{ definition } #{ sections } <hr />")
-      height = this.calculate_scroll('wordnik')
+      height = @calculate_scroll('wordnik')
       wordnik.animate(scrollTop: height)
 
   calculate_scroll: (element='domainr') ->
@@ -154,10 +154,10 @@ class Usability
   """A class that makes the site more usable."""
 
   constructor: ->
-    this.popover_fade()
-    this.tab_switch()
-    this.about_click()
-    this.input_focus()
+    @popover_fade()
+    @tab_switch()
+    @about_click()
+    @input_focus()
 
   popover_fade: ->
     popover = $('.popover')
@@ -199,8 +199,8 @@ class Domains
   """Handle interaction with clicking on domain names and modals."""
 
   constructor: ->
-    this.create_modal()
-    this.click_available()
+    @create_modal()
+    @click_available()
 
   create_modal: ->
     modal = $('#register-domain')
@@ -215,9 +215,25 @@ class Domains
       text = $(this).text()
       modal = $('#register-domain')
       console.log(text)
+      console.log new Referral(text)
       modal.modal('show')
       return false
     )
+
+
+class Referral
+  """Handle domain referral."""
+
+  constructor: (domain) ->
+    @domain = domain
+    @tld = domain.split('.')[1]
+    return godaddy: @godaddy(), namecheap: @namecheap()
+
+  godaddy: ->
+    "http://www.godaddy.com/domains/search.aspx?isc=IAPtdom1&domaintocheck=#{ @domain }&tld=#{ @tld }"
+
+  namecheap: ->
+    "http://www.namecheap.com/domains/domain-name-search.aspx?formtype=domain&aff=23610&sld=#{ @domain }"
 
 
 # CoffeeScript's version of the `main` function.

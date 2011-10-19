@@ -1,8 +1,8 @@
 (function() {
-  var Domains, Results, Search, Usability, render;
+  var Domains, Referral, Results, Search, Usability, render;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   render = function(id, data) {
-    "A simple function to render ICanHaz.js templates.";    return ich[id](data, true);
+    "A simple function to render ICanHaz.js templates.";    return window.ich[id](data, true);
   };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
@@ -291,11 +291,29 @@
         text = $(this).text();
         modal = $('#register-domain');
         console.log(text);
+        console.log(new Referral(text));
         modal.modal('show');
         return false;
       });
     };
     return Domains;
+  })();
+  Referral = (function() {
+    "Handle domain referral.";    function Referral(domain) {
+      this.domain = domain;
+      this.tld = domain.split('.')[1];
+      return {
+        godaddy: this.godaddy(),
+        namecheap: this.namecheap()
+      };
+    }
+    Referral.prototype.godaddy = function() {
+      return "http://www.godaddy.com/domains/search.aspx?isc=IAPtdom1&domaintocheck=" + this.domain + "&tld=" + this.tld;
+    };
+    Referral.prototype.namecheap = function() {
+      return "http://www.namecheap.com/domains/domain-name-search.aspx?formtype=domain&aff=23610&sld=" + this.domain;
+    };
+    return Referral;
   })();
   (function() {
     new Search;
