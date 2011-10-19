@@ -126,7 +126,7 @@ class Results
       wordnik.css('background', '#fff')
       definition = render('wordnik_definition', {
         value: @value,
-        first_definition: first_definition
+        first_definition: first_definition,
       })
       sections = []
       for result in @data

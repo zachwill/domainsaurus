@@ -33,7 +33,6 @@
   <!-- Need Modernizr? Uncomment the following script. -->
   <!-- <script src="/static/js/libs/modernizr-2.0.6.js"></script> -->
 
-  {% block mustache %}{% endblock %}
 </head>
 
 <body>
@@ -68,6 +67,8 @@
 
   {% block js %}{% endblock %}
 
+  <!-- Mustache templates rendered with ICanHaz.js -->
+  {% block mustache %}{% endblock %}
 
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
   <script>
