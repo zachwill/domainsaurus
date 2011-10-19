@@ -187,6 +187,7 @@
       this.popover_fade();
       this.tab_switch();
       this.about_click();
+      this.input_focus();
     }
     Usability.prototype.popover_fade = function() {
       var popover;
@@ -231,6 +232,14 @@
         });
         return input.focus();
       });
+    };
+    Usability.prototype.input_focus = function() {
+      var search_focus;
+      search_focus = function(event) {
+        return $('.search-bar').focus();
+      };
+      $('#main').click(search_focus);
+      return $('.popover').click(search_focus);
     };
     return Usability;
   })();

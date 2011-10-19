@@ -146,6 +146,7 @@ class Usability
     this.popover_fade()
     this.tab_switch()
     this.about_click()
+    this.input_focus()
 
   popover_fade: ->
     popover = $('.popover')
@@ -175,6 +176,12 @@ class Usability
       html.animate(scrollTop: 1500)
       input.focus()
     )
+
+  input_focus: ->
+      search_focus = (event) ->
+          $('.search-bar').focus()
+      $('#main').click(search_focus)
+      $('.popover').click(search_focus)
 
 
 class Domains
