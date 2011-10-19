@@ -8,7 +8,7 @@ body:after{content:url(/static/img/search.png);display:none;}
 #main{padding-top:100px;}
 .search{height:100px;margin:130px 0 25px;position:relative;}.search .search-bar{font-size:14px;padding-right:40px;width:290px;}
 .search .submit{background:url(/static/img/search.png) #eeeeee no-repeat center center;height:28px;position:absolute;right:0;text-indent:-999em;top:0;width:36px;z-index:5;}
-#domainr,#wordnik{height:500px;overflow-y:scroll;}#domainr .label,#wordnik .label{float:right;margin-right:30px;}
+#domainr,#wordnik{height:500px;overflow-y:scroll;}#domainr .label,#wordnik .label{float:right;margin-right:30px;text-align:center;width:8px;}
 #domainr{background:url(/static/img/idea.png) no-repeat center 25%;}
 #wordnik{background:url(/static/img/book.png) no-repeat center 25%;}#wordnik .row{margin-bottom:10px;}
 #wordnik h5{line-height:18px;text-align:right;}
