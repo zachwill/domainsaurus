@@ -47,14 +47,16 @@ body:after{
         width: 330px - @button-width;
     }
     .submit{
-        background: url(/static/img/search.png) #eee no-repeat center center;
+        background: url(/static/img/search.png) transparent no-repeat center center;
+        border: none;
         height: 28px;
         position: absolute;
-        right: 0;
+        right: 2px;
         text-indent: -999em;
         top: 0;
-        width: @button-width - 4px;
+        width: @button-width;
         z-index: 5;
+        .box-shadow(none);
     }
 }
 
