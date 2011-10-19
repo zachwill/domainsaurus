@@ -1,6 +1,9 @@
 (function() {
-  var Domains, Results, Search, Usability;
+  var Domains, Results, Search, Usability, render;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  render = function(id, data) {
+    "A simple function to render ICanHaz.js templates.";    return ich[id](data, true);
+  };
   Search = (function() {
     "A class to encapsulate search functionality.";    function Search() {
       this.ajax_call = __bind(this.ajax_call, this);
@@ -48,6 +51,9 @@
       var input, url, value;
       input = this.input;
       value = input.val();
+      if (!value) {
+        return false;
+      }
       if (input.data('api') === 'wordnik') {
         url = this.wordnik(value);
         this.definitions = this.wordnik(value, 'definitions');
@@ -78,7 +84,7 @@
       if (definitions == null) {
         definitions = void 0;
       }
-      this.create_html = __bind(this.create_html, this);
+      this.create_wordnik_html = __bind(this.create_wordnik_html, this);
       this.get_wordnik_definition = __bind(this.get_wordnik_definition, this);
       this.wordnik_results = __bind(this.wordnik_results, this);
       this.domainr_results = __bind(this.domainr_results, this);
@@ -87,7 +93,6 @@
       this.data = data;
       this.definitions_url = definitions;
       this.populate(data);
-      this.click_available_domain();
     }
     Results.prototype.populate = function(data) {
       if (this.api === 'wordnik') {
@@ -97,12 +102,12 @@
       }
     };
     Results.prototype.domainr_results = function(data) {
-      var div, domainr, height, html, label, result, results, span, symbol, _i, _len;
+      var div, domain, domainr, height, html, label, result, results, symbol, template, templates, _i, _len;
       domainr = $('#domainr');
       html = domainr.html();
       results = data.results;
       domainr.css('background', '#fff');
-      div = "<div class='row'>";
+      templates = [];
       for (_i = 0, _len = results.length; _i < _len; _i++) {
         result = results[_i];
         if (result.availability === 'available') {
@@ -112,10 +117,16 @@
           label = "label";
           symbol = 'X';
         }
-        span = "<span class='" + label + "'>" + symbol + "</span>";
-        div += "<p class='span4'><a href='#' class='domain'>" + result.domain + "</a>" + span + "</p>";
+        domain = result.domain;
+        template = render('domainr_results', {
+          label: label,
+          symbol: symbol,
+          domain: domain
+        });
+        templates.push(template);
       }
-      div += "</div><hr />";
+      templates = templates.join('');
+      div = "<div class='row'>" + templates + "</div><hr />";
       domainr.html(html + div);
       height = this.calculate_scroll('domainr');
       return domainr.animate({
@@ -126,7 +137,7 @@
       var deferred_wordnik;
       this.value = $('.search-bar').val();
       deferred_wordnik = this.get_wordnik_definition(this.value);
-      return deferred_wordnik.then(this.create_html);
+      return deferred_wordnik.then(this.create_wordnik_html);
     };
     Results.prototype.get_wordnik_definition = function(value) {
       return $.ajax({
@@ -134,35 +145,46 @@
         dataType: 'jsonp'
       });
     };
-    Results.prototype.create_html = function(definition_data) {
-      var definition, first_definition, height, html, result, section, similar, synonym, word, wordnik, _i, _j, _len, _len2, _ref, _ref2;
+    Results.prototype.create_wordnik_html = function(definition_data) {
+      var definition, first_definition, height, html, relationship, result, section, sections, synonym, wordnik, words, _i, _len, _ref;
       try {
         first_definition = definition_data[0].text;
         first_definition = first_definition.split(':')[0];
       } catch (error) {
         first_definition = "Apparently this word doesn't have a definition.";
       }
-      definition = "<div class='row'>\n<h3 class='span3'>" + this.value + "</h3><p class='span5'>" + first_definition + "</p>\n</div>";
       wordnik = $('#wordnik');
       html = wordnik.html();
       wordnik.css('background', '#fff');
-      html += definition;
+      definition = render('wordnik_definition', {
+        value: this.value,
+        first_definition: first_definition
+      });
+      sections = [];
       _ref = this.data;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         result = _ref[_i];
-        section = "<section>";
-        word = "<div class='row'><h5 class='span3'>" + result.relationshipType + "</h5>";
-        similar = "<div class='span5'>";
-        _ref2 = result.words;
-        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-          synonym = _ref2[_j];
-          similar += "<p>" + synonym + "</p>";
-        }
-        similar += "</div>";
-        section += word + similar + "</section>";
-        html += section;
+        relationship = result.relationshipType;
+        words = (function() {
+          var _j, _len2, _ref2, _results;
+          _ref2 = result.words;
+          _results = [];
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            synonym = _ref2[_j];
+            _results.push({
+              synonym: synonym
+            });
+          }
+          return _results;
+        })();
+        section = render('wordnik_results', {
+          relationship: relationship,
+          words: words
+        });
+        sections.push(section);
       }
-      wordnik.html(html + "<hr />");
+      sections = sections.join('');
+      wordnik.html(html + ("" + definition + " " + sections + " <hr />"));
       height = this.calculate_scroll('wordnik');
       return wordnik.animate({
         scrollTop: height

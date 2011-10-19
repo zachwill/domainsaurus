@@ -93,3 +93,34 @@
     </div>
 </div>
 {% endblock %}
+
+
+{% block mustache %}
+{% raw %}
+
+<script type="text/html" id="domainr_results">
+  <p class='span4'><a href='#' class='domain'>{{ domain }}</a>
+  <span class='{{ label }}'>{{{ symbol }}}</span>
+  </p>
+</script>
+
+<script type="text/html" id="wordnik_definition">
+  <div class='row'>
+    <h3 class='span3'>{{ value }}</h3><p class='span5'>{{ first_definition }}</p>
+  </div>
+</script>
+
+<script type="text/html" id="wordnik_results">
+  <section>
+    <div class='row'>
+      <h5 class='span3'>{{ relationship }}</h5>
+      <div class='span5'>
+        {{# words }}
+          <p>{{ synonym }}</p>
+        {{/ words }}
+      </div>
+  </section>
+</script>
+
+{% endraw %}
+{% endblock %}

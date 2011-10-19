@@ -1,3 +1,8 @@
+render = (id, data) ->
+  """A simple function to render ICanHaz.js templates."""
+  return ich[id](data, true)
+
+
 class Search
   """A class to encapsulate search functionality."""
 
@@ -35,6 +40,8 @@ class Search
   perform_search: (event) =>
     input = @input
     value = input.val()
+    if not value
+        return false
     if input.data('api') == 'wordnik'
       url = this.wordnik(value)
       @definitions = this.wordnik(value, 'definitions')
@@ -64,7 +71,6 @@ class Results
     @data = data
     @definitions_url = definitions
     this.populate(data)
-    this.click_available_domain()
 
   populate: (data) =>
     if @api == 'wordnik'
@@ -77,7 +83,7 @@ class Results
     html = domainr.html()
     results = data.results
     domainr.css('background', '#fff')
-    div = "<div class='row'>"
+    templates = []
     for result in results
       if result.availability == 'available'
         label = "label success"
@@ -85,9 +91,15 @@ class Results
       else
         label = "label"
         symbol = 'X'
-      span = "<span class='#{ label }'>#{ symbol }</span>"
-      div += "<p class='span4'><a href='#' class='domain'>#{ result.domain }</a>#{ span }</p>"
-    div += "</div><hr />"
+      domain = result.domain
+      template = render('domainr_results', {
+        label: label,
+        symbol: symbol,
+        domain: domain,
+      })
+      templates.push(template)
+    templates = templates.join('')
+    div = "<div class='row'>#{ templates }</div><hr />"
     domainr.html(html + div)
     height = this.calculate_scroll('domainr')
     domainr.animate(scrollTop: height)
@@ -95,7 +107,7 @@ class Results
   wordnik_results: (data) =>
     @value = $('.search-bar').val()
     deferred_wordnik = this.get_wordnik_definition(@value)
-    deferred_wordnik.then(this.create_html)
+    deferred_wordnik.then(this.create_wordnik_html)
 
   get_wordnik_definition: (value) =>
     $.ajax({
@@ -103,30 +115,30 @@ class Results
       dataType: 'jsonp',
     })
 
-  create_html: (definition_data) =>
+  create_wordnik_html: (definition_data) =>
       try
         first_definition = definition_data[0].text
         first_definition = first_definition.split(':')[0]
       catch error
         first_definition = "Apparently this word doesn't have a definition."
-      definition = """
-        <div class='row'>
-        <h3 class='span3'>#{ @value }</h3><p class='span5'>#{ first_definition }</p>
-        </div>"""
       wordnik = $('#wordnik')
       html = wordnik.html()
       wordnik.css('background', '#fff')
-      html += definition
+      definition = render('wordnik_definition', {
+        value: @value,
+        first_definition: first_definition
+      })
+      sections = []
       for result in @data
-        section = "<section>"
-        word = "<div class='row'><h5 class='span3'>#{ result.relationshipType }</h5>"
-        similar = "<div class='span5'>"
-        for synonym in result.words
-          similar += "<p>#{ synonym }</p>"
-        similar += "</div>"
-        section += word + similar + "</section>"
-        html += section
-      wordnik.html(html + "<hr />")
+        relationship = result.relationshipType
+        words = ({synonym: synonym} for synonym in result.words)
+        section = render('wordnik_results', {
+          relationship: relationship,
+          words: words,
+        })
+        sections.push(section)
+      sections = sections.join('')
+      wordnik.html(html + "#{ definition } #{ sections } <hr />")
       height = this.calculate_scroll('wordnik')
       wordnik.animate(scrollTop: height)
 
