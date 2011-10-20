@@ -50,6 +50,7 @@
     Search.prototype.perform_search = function(event) {
       var input, url, value;
       input = this.input;
+      $('.submit').css('background', 'url(/static/img/rotate.gif) no-repeat center center');
       value = input.val();
       if (!value) {
         return false;
@@ -93,6 +94,7 @@
       this.data = data;
       this.definitions_url = definitions;
       this.populate(data);
+      $('.submit').css('background', '');
     }
     Results.prototype.populate = function(data) {
       if (this.api === 'wordnik') {
@@ -287,11 +289,12 @@
       var links;
       links = $('.domain');
       return links.live('click', function(event) {
-        var modal, text;
+        var buttons, modal, referral, text;
         text = $(this).text();
         modal = $('#register-domain');
-        console.log(text);
-        console.log(new Referral(text));
+        referral = new Referral(text);
+        buttons = render('modal_footer', referral);
+        modal.find('.modal-footer').html(buttons);
         modal.modal('show');
         return false;
       });

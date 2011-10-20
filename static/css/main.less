@@ -94,6 +94,17 @@ body:after{
     }
 }
 
+.custom-button(@color) {
+    .gradientBar(@color, darken(@color, 7%));
+    color: #fff;
+    &:hover{
+        color: #fff;
+    }
+}
+
+.godaddy{ .custom-button(#ff8800); }
+.namecheap{ .custom-button(#0b9ef5); }
+
 footer{
     border: none;
 }

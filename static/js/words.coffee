@@ -39,6 +39,7 @@ class Search
 
   perform_search: (event) =>
     input = @input
+    $('.submit').css('background', 'url(/static/img/rotate.gif) no-repeat center center')
     value = input.val()
     if not value
         return false
@@ -71,6 +72,7 @@ class Results
     @data = data
     @definitions_url = definitions
     @populate(data)
+    $('.submit').css('background', '')
 
   populate: (data) =>
     if @api == 'wordnik'
@@ -214,8 +216,9 @@ class Domains
     links.live('click', (event) ->
       text = $(this).text()
       modal = $('#register-domain')
-      console.log(text)
-      console.log new Referral(text)
+      referral = new Referral(text)
+      buttons = render('modal_footer', referral)
+      modal.find('.modal-footer').html(buttons)
       modal.modal('show')
       return false
     )
