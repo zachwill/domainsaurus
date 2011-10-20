@@ -1,7 +1,7 @@
 
 ::-moz-selection{background:#46a546;color:#fff;text-shadow:-1px 1px 1px #2f6f2f;}
 ::selection{background:#46a546;color:#fff;text-shadow:-1px 1px 1px #2f6f2f;}
-body:after{content:url(/static/img/search.png);display:none;}
+body:after{content:url(/static/img/search.png) url(/static/img/rotate.gif);display:none;}
 .topbar a{color:#fff;}.topbar a:hover{background:#0069d6;}
 .topbar .brand:hover{text-decoration:none;}
 .topbar .fill,.topbar .menu-dropdown{background-color:#378137;background-repeat:repeat-x;background-image:-khtml-gradient(linear, left top, left bottom, from(#3e933e), to(#378137));background-image:-moz-linear-gradient(top, #3e933e, #378137);background-image:-ms-linear-gradient(top, #3e933e, #378137);background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #3e933e), color-stop(100%, #378137));background-image:-webkit-linear-gradient(top, #3e933e, #378137);background-image:-o-linear-gradient(top, #3e933e, #378137);background-image:linear-gradient(top, #3e933e, #378137);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3e933e', endColorstr='#378137', GradientType=0);}
