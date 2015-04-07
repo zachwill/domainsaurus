@@ -30,7 +30,7 @@ class Search
     )
 
   domainr: (word) ->
-    "http://domai.nr/api/json/search?q=#{ word }"
+    "https://api.domainr.com/v1/search?q=#{ word }"
 
   wordnik: (word, type='related') ->
     api_key = '114c5c8013a30746b185b088e83026eaebebd4a243890747e'
