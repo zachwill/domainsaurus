@@ -30,7 +30,7 @@ class Search
     )
 
   domainr: (word) ->
-    "https://domainr.com/api/json/search?q=#{ word }&client_id=domainsaurus"
+    "https://domainr.com/api/json/search?q=#{ word }&client_id={your-mashape-key}"
 
   wordnik: (word, type='related') ->
     api_key = '114c5c8013a30746b185b088e83026eaebebd4a243890747e'
